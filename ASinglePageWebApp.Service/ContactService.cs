@@ -27,8 +27,6 @@ namespace ASinglePageWebApp.Service
             return contacts;
         }
 
-
-
         public Contact GetContactById(int id)
         {
             return _contactRepository.GetById(id);

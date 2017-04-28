@@ -19,19 +19,6 @@ namespace ASinglePageWebApp.ServicesLayer.Controllers
 
         private IContactService _contactService;
 
-        //public HomeController()
-        //{
-        //    using (ContactContext db = new ContactContext())
-        //    {
-        //       _contactRepository = new ContactRepository(db);
-        //    }
-        //}
-
-        //public HomeController()
-        //{
-           
-        //}
-
         public HomeController(IContactService contactService)
         {
             _contactService = contactService;

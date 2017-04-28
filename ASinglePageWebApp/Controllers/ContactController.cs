@@ -18,19 +18,9 @@ namespace ASinglePageWebApp.Controllers
         private readonly IContactService _contactService;
         Uri WebApiAddress = new Uri("http://localhost:57620/");
         
-        
-
         public ContactController(IContactService contactService)
         {
             _contactService = contactService;
-            SetClient();
-        }
-
-        public void SetClient() {
-            //http://localhost:57620/api/Home/GetAllContacts/1
-            //client.BaseAddress = new Uri("http://localhost:57620/");
-            //client.DefaultRequestHeaders.Accept.Clear();
-            
         }
 
         // GET: Contact
@@ -42,8 +32,10 @@ namespace ASinglePageWebApp.Controllers
             {
                 client.BaseAddress = WebApiAddress;
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //Using http get to getall the details info of contacts
                 HttpResponseMessage response = await client.GetAsync("api/Home/GetAllContacts/" + pageNumber);
                 
+                //Check if the response is corrected. 
                 if (response.IsSuccessStatusCode)
                 {
                     var contact = response.Content.ReadAsStringAsync();
@@ -52,19 +44,6 @@ namespace ASinglePageWebApp.Controllers
             }
             return View(contacts);
         }
-
-        //public ActionResult Index(int? page)
-        //{
-        //    int pageNumber = (page ?? 1) - 1;
-        //    int totalCount = 0;
-        //    int PageSize = 10;
-        //    var students = _contactService.GetAllContacts(page, PageSize, out totalCount);
-        //    var studentsAsIPagedList = new StaticPagedList<Contact>(students, pageNumber + 1, PageSize, totalCount);
-
-        //    return View(studentsAsIPagedList);
-        //}
-
-
 
         // GET: Contact/Details/5
         public async Task<ActionResult> Details(int id)
@@ -102,9 +81,7 @@ namespace ASinglePageWebApp.Controllers
                 {
                     client.BaseAddress = WebApiAddress;
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    //var response = Request.CreateResponse(HttpStatusCode.OK, contact);
-                    await client.PostAsJsonAsync("api/Home/Create", contact);
-                    //HttpResponseMessage response = await client.PostAsync("api/Home/Create/", contact);                   
+                    await client.PostAsJsonAsync("api/Home/Create", contact);             
                 }
                 return RedirectToAction("Index");
             }
@@ -132,8 +109,7 @@ namespace ASinglePageWebApp.Controllers
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
-            {
-                //Console.WriteLine(ex.Message);
+            {              
                 return View();
             }
         }
@@ -146,9 +122,7 @@ namespace ASinglePageWebApp.Controllers
             {
                 client.BaseAddress = WebApiAddress;
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                //var response = Request.CreateResponse(HttpStatusCode.OK, contact);
-                await client.DeleteAsync("api/Home/" + id);
-                //HttpResponseMessage response = await client.PostAsync("api/Home/Create/", contact);                   
+                await client.DeleteAsync("api/Home/" + id);                           
             }            
 
             return RedirectToAction("Index");
@@ -160,8 +134,6 @@ namespace ASinglePageWebApp.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-
                 return RedirectToAction("Index");
             }
             catch
